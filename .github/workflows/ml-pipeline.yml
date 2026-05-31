@@ -1,0 +1,49 @@
+name: ML Pipeline - Boston Housing Prediction
+
+on:
+  push:
+    branches:
+      - kernelridge
+
+jobs:
+  ml-training:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Run Decision Tree Model (train.py)
+        run: |
+          echo "=========================================="
+          echo "Running Decision Tree Regressor"
+          echo "=========================================="
+          git checkout dtree -- train.py
+          python train.py
+      
+      - name: Run Kernel Ridge Model (train2.py)
+        run: |
+          echo "=========================================="
+          echo "Running Kernel Ridge Regression"
+          echo "=========================================="
+          python train2.py
+      
+      - name: Model Comparison Summary
+        run: |
+          echo ""
+          echo "=========================================="
+          echo "PIPELINE EXECUTION COMPLETED"
+          echo "=========================================="
+          echo "Models trained and evaluated successfully!"
+          echo "Check logs above for MSE scores for both models"
+          echo "=========================================="
