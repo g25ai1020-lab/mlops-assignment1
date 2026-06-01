@@ -28,7 +28,6 @@ jobs:
           echo "=========================================="
           echo "Running Decision Tree Regressor"
           echo "=========================================="
-          git checkout dtree -- train.py
           python train.py
       
       - name: Run Kernel Ridge Model (train2.py)
